@@ -28,7 +28,7 @@ def find_imgs(url):     # 寻找图片地址
     return img_addrs
 
 
-def save_imgs(folder, img_addrs):
+def save_imgs(img_addrs):
     for each in img_addrs:
         filename = each.split('/')[-1]
         with open(filename, 'wb') as f:
@@ -48,7 +48,7 @@ def downloadMM(folder='OOXX', pages=10):
         else:
             page_url = url + '_' + str(i) + '.html'
         img_addrs = find_imgs(page_url)
-        save_imgs(folder, img_addrs)
+        save_imgs(img_addrs)
 
 
 if __name__ == '__main__':
