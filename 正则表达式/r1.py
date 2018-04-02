@@ -37,3 +37,4 @@ s = '<html><title>http://juqing.9duw.com</title></html>'
 print(re.search(r'<.+>', s))    # 贪婪模式
 print(re.search(r'<.+?>', s))   # 启用非贪婪（*?、+?、??）
 
+# test
