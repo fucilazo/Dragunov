@@ -14,7 +14,6 @@ def url_open(url):      # 打开url
 def find_imgs(url):     # 寻找图片地址
     html = url_open(url).decode('ANSI')
     img_addrs = []      # 存放图片的列表
-
     a = html.find('/UploadPic')
     while a != -1:      # 查询本页面所有图片
         b = html.find('.jpg', a, a+255)         # 网页地址最大不超过255
@@ -22,9 +21,7 @@ def find_imgs(url):     # 寻找图片地址
             img_addrs.append('http://juqing.9duw.com' + html[a:b+4])     # 网页地址
         else:
             b = a
-
         a = html.find('/UploadPic', b)
-
     return img_addrs
 
 
@@ -39,9 +36,7 @@ def save_imgs(img_addrs):
 def downloadMM(folder='OOXX', pages=10):
     os.mkdir(folder)    # 创建目录
     os.chdir(folder)    # 切换目录
-
     url = 'http://juqing.9duw.com/yiyuele/news/66187'
-
     for i in range(1, pages):
         if i == 1:
             page_url = url + '.html'
