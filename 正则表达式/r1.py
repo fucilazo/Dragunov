@@ -32,9 +32,10 @@ print(re.findall(r'[a-z]', 'Fucilazo'))         # 找到所有符合的字符
 print(re.findall(r'[A-z]', 'Fucilazo'))         # 找到所有符合的字符
 print(re.findall(r'[^a-z]', 'FuciLazo'))        # 取反
 print(re.findall(r'[a-z^]', 'FuciLazo^'))       # 匹配[a-z]和'^'
+print(re.findall(r'\bart\b', 'art is a artists art weapon,art and art_scream will art!'))   # 识别单词（由空格或符号分割，不包括下划线）
+print(re.findall(r'art\B', 'art is a artists art weapon,art and art_scream will art!'))     # 与上面相反
+print(re.findall(r'\w', '鞠躬尽瘁死而后已_(Not to die,just work!)'))        # 识别符号以外的字符（不包括'_'）('\W'与之相反)
 print('----------------------------*分*隔*符*----------------------------')
 s = '<html><title>http://juqing.9duw.com</title></html>'
 print(re.search(r'<.+>', s))    # 贪婪模式
 print(re.search(r'<.+?>', s))   # 启用非贪婪（*?、+?、??）
-
-# test
