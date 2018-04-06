@@ -4,7 +4,7 @@ import argparse
 import numpy as py
 import math
 import turtle
-# from PIL import Image
+from PIL import Image
 from datetime import datetime
 from fractions import gcd
 
