@@ -1,5 +1,6 @@
 import pygame
 import sys
+import math
 from pygame.locals import *
 from random import *
 
@@ -13,7 +14,6 @@ class Ball(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = position    # 获取位置
         self.speed = speed                          # 获取速度
         self.width, self.height = bg_size[0], bg_size[1]
-        self.radius = self.rect.width / 2
 
     def move(self):
         self.rect = self.rect.move(self.speed)
@@ -25,6 +25,19 @@ class Ball(pygame.sprite.Sprite):
             self.rect.top = self.height     # 小球从下侧出来
         elif self.rect.top > self.height:   # 小球上边界 碰到 屏幕下边界
             self.rect.bottom = 0            # 小球从上侧出来
+
+
+# 碰撞检测原理
+def collide_check(item, target):    # item、target -> 球1、球2
+    col_balls = []  # 存入和'item'发生碰撞的球
+    for each in target:
+        distance = math.sqrt(
+            math.pow((item.rect.center[0] - each.rect.center[0]), 2) +
+            math.pow((item.rect.center[1] - each.rect.center[1]), 2))
+        if distance <= (item.rect.width + each.rect.width) / 2:
+            col_balls.append(each)
+
+    return col_balls
 
 
 def main():
@@ -42,16 +55,16 @@ def main():
     background = pygame.image.load(bg_image).convert()
 
     balls = []  # 存放所有小球的对象
-    group = pygame.sprite.Group()   # 创建碰撞组
 
-    for i in range(5):
+    BALL_NUM = 5    # 小球数量
+
+    for i in range(BALL_NUM):   # 创建小球
         position = randint(0, width-50), randint(0, height-50)     # 球的宽度 50x50
         speed = [randint(-10, 10), randint(-10, 10)]
         ball = Ball(ball_image, position, speed, bg_size)    # 实例化
-        while pygame.sprite.spritecollide(ball, group, False, pygame.sprite.collide_circle):
+        while collide_check(ball, balls):   # 如果两个小球出生的时候重叠了
             ball.rect.left, ball.rect.top = randint(0, width-50), randint(0, height-50)
         balls.append(ball)
-        group.add(ball)
 
     clock = pygame.time.Clock()
 
@@ -66,19 +79,12 @@ def main():
             each.move()
             screen.blit(each.image, each.rect)
 
-        for each in group:
-            group.remove(each)
-
-            # spritecollide(sprite, group, dokill, collide=None)
-            # sprite -> 指定被检测的精灵
-            # group -> 指定被碰撞的列表  sprite.Group
-            # dokill -> 是否删除组中检测到碰撞的精灵
-            # collide -> 特殊定制(None检测rect属性)
-            if pygame.sprite.spritecollide(each, group, False, pygame.sprite.collide_circle):
-                each.speed[0] = -each.speed[0]
-                each.speed[1] = -each.speed[1]
-
-            group.add(each)
+        for i in range(BALL_NUM):
+            item = balls.pop(i)     # 被检测碰撞的小球
+            if collide_check(item, balls):  # 碰撞后速度取反
+                item.speed[0] = -item.speed[0]
+                item.speed[1] = -item.speed[1]
+            balls.insert(i, item)   # 将小球放回
 
         pygame.display.flip()
         clock.tick(30)
