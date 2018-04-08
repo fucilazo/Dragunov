@@ -35,7 +35,22 @@ def main():
 
     running = True
 
-    bg_size = width, height = 1024, 681
+    # 添加背景音乐
+    pygame.mixer.music.load('kiojin.ogg')
+    pygame.mixer.music.play()
+
+    # 添加音效
+    loser_sound = pygame.mixer.Sound('loser.wav')
+    winner_sound = pygame.mixer.Sound('winner.wav')
+    laugh_sound = pygame.mixer.Sound('laugh.wav')
+    hole_sound = pygame.mixer.Sound('hole.wav')
+
+    # 音乐播放完时，游戏结束
+    GAMEOVER = USEREVENT
+    pygame.mixer.music.set_endevent(GAMEOVER)
+
+    # 根据背景图片决定窗口尺寸
+    bg_size = width, height = 1280, 720
     screen = pygame.display.set_mode(bg_size)
     pygame.display.set_caption('Play the ball')
 
@@ -44,6 +59,7 @@ def main():
     balls = []  # 存放所有小球的对象
     group = pygame.sprite.Group()   # 创建碰撞组
 
+    # 创建五个小球
     for i in range(5):
         position = randint(0, width-50), randint(0, height-50)     # 球的宽度 50x50
         speed = [randint(-10, 10), randint(-10, 10)]
@@ -59,6 +75,11 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit()
+            elif event.type == GAMEOVER:
+                loser_sound.play()
+                pygame.time.delay(2000)
+                laugh_sound.play()
+                running = False
 
         screen.blit(background, (0, 0))
 
