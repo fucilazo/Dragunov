@@ -1,0 +1,18 @@
+1) 从 Python 官网上下载并安装 Python 3：
+https://python.org
+
+2) 通过 pip 安装以下依赖库：
+Ⅰ. Tensorflow：	pip install tensorflow
+II. NumPy：		pip install numpy
+III.SciPy：		pip install scipy
+IV. OpenCV：		pip install opencv-python
+Ⅴ. Pillow：		pip install pillow
+Ⅵ. Matplotlib： 	pip install matplotlib
+Ⅶ. H5py：		pip install h5py
+Ⅷ. Keras：		pip install keras
+Ⅸ. ImageAI：		pip install https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.1/imageai-2.0.1-py3-none-any.whl
+
+3) 通过此链接下载用于目标检测的 RetinaNet 模型文件。
+https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/resnet50_coco_best_v2.0.1.h5
+
+现在，你已经安装了需要的依赖库。接下来，你就可以编写第一段目标检测代码了。创建一个 Python 文件并为其命名 (例如，FirstDetection.py)，然后写入下面的 10 行代码，并将 RetinaNet 模型文件和需要检测的图像复制到包含这个 python 文件的文件夹中。
