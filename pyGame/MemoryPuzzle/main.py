@@ -309,4 +309,3 @@ def hasWon(revealedBoxes):
 
 if __name__ == '__main__':
     main()
-    
