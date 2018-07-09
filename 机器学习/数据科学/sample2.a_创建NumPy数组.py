@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 # 转换列表为一维数组
 list_of_ints = [1, 2, 3]
@@ -40,3 +41,27 @@ array_2 = np.array(complex_list[:6])
 print('complex_list[:6]', array_2.dtype)    # 浮点型占优
 array_2 = np.array(complex_list[:])
 print('complex_list[:]', array_2.dtype)     # （混合数据）自定义类型
+print('--------------分割线--------------')
+
+# 使用NumPy函数生成数组
+print(np.arange(9).reshape(3, 3))
+print(np.arange(9)[::-1])   # 颠倒数据
+print(np.random.randint(low=1, high=10, size=(3, 3)).reshape(3, 3))
+print(np.linspace(start=0, stop=1, num=10))                 # 等差数列
+print(np.logspace(start=0, stop=1, num=10, base=10.0))      # 等比数列
+print(np.random.normal(size=(3, 3)))                        # 标准正态分布
+print(np.random.normal(loc=1.0, scale=3.0, size=(3, 3)))    # 不同参数值的标准正态分布。loc：均值，scale：标准差
+print(np.random.uniform(low=0.0, high=1.0, size=(3, 3)))    # 均匀分布
+print('--------------分割线--------------')
+
+# 直接从文件中获得数组
+iris = np.loadtxt('iris.csv', delimiter=',', dtype=object)
+print(iris[:5])
+print('--------------分割线--------------')
+
+# 从pandas中提取数据
+iris_filename = 'iris.csv'
+iris = pd.read_csv(iris_filename, header=None)
+iris_array = iris.values
+print(iris_array[:5])
+print(iris_array.dtype)
