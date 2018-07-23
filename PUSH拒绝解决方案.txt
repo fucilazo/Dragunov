@@ -1,0 +1,3 @@
+在本地库打开GitBash
+键入git pull origin master --allow-unrelated-histories
+再键入 :wq 命令
