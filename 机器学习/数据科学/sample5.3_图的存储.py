@@ -22,6 +22,5 @@ G2 = nx.read_gml(GML_file)
 nx.draw_networkx(G2)
 plt.show()
 
-
 my_social_network = nx.Graph()
 snowball_sampling.snowball_sampling(my_social_network, 2, 'alberto')
