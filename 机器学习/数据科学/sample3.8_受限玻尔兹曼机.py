@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import datasets
+from sklearn.datasets import fetch_olivetti_faces
 from sklearn import preprocessing
 from sklearn.neural_network import BernoulliRBM
 
 n_components = 64   # try with 64,100,144
-olivetti_faces = datasets.fetch_olivetti_faces()
+olivetti_faces = fetch_olivetti_faces()
 X = preprocessing.binarize(preprocessing.scale(olivetti_faces.data), 0.5)
 rbm = BernoulliRBM(n_components=n_components, learning_rate=0.01, n_iter=100)
 rbm.fit(X)
