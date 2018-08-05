@@ -38,5 +38,5 @@ for i, item in enumerate(input_data):
 input_data_encoded = np.array(input_data_encoded)
 
 # 预测
-output_class = classifier.predict(input_data_encoded.reshape(1, 6))
+output_class = classifier.predict(input_data_encoded.reshape(1, -1))
 print('Output class: ', label_encoder[-1].inverse_transform(output_class)[0])
