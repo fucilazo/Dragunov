@@ -80,4 +80,4 @@ input_data_encoded = np.array(input_data_encoded)
 
 # 预测分类
 output_class = classifier_gaussiannb.predict(input_data_encoded.reshape(1, -1))
-print(label_encoder[-1].inverse_transform(output_class))
+print(label_encoder[-1].inverse_transform(output_class)[0])

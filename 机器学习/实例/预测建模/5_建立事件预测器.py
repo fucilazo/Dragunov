@@ -39,7 +39,7 @@ accuracy = cross_val_score(classifier, X, y, scoring='accuracy', cv=3)
 print('Accuracy of the classifier: ', str(round(100 * accuracy.mean(), 2)), '%')
 
 # 用单一数据示例进行测试
-input_data = ['Tuesday', '12:30:00', '21', '23']
+input_data = ['Tuesday', '08/26/05', '12:30:00', '21', '23']
 input_data_encoded = [-1] * len(input_data)
 count = 0
 for i, item in enumerate(input_data):

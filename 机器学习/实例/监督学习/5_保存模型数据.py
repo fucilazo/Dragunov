@@ -33,12 +33,12 @@ def saving():
 
 
 # 使用模型文件
-def reding():
+def reading():
     with open(output_model_file, 'rb') as f:
         model_linregr = pickle.load(f)
     return model_linregr
 
 
 if __name__ == '__main__':
-    y_test_pred_new = reding().predict(X_test)
+    y_test_pred_new = reading().predict(X_test)
     print(metrics.mean_absolute_error(y_test, y_test_pred_new))
