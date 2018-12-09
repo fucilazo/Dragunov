@@ -100,7 +100,7 @@ if __name__ == '__main__':
     model1 = LinearFilterModel(NormalDistribution(10, 1), NoiseDistribution(1), NoiseDistribution(1), 1, 1)
     # Uncomment the line below to use the same truth
     #model.sameTruth = True
-    # simulate(n, model, 100, T)
+    # simulate(n, model1, 100, T)
 
     # ---
     # Nonlinear model, x := sin(x) + v, y = cos(x) + w
@@ -110,17 +110,17 @@ if __name__ == '__main__':
     #model.sameTruth = True
     # Uncomment the line below to use the model with different parameters
     #model = FilterModel(NormalDistribution(0.5, 1), NoiseDistribution(0.1), NoiseDistribution(0.02), math.sin, math.cos, math.cos, lambda x: -math.sin(x))
-    # simulate(n, model, 1000, 1)
+    simulate(n, model2, 100, 1)
 
     # ---
     # Nonlinear model, x := 10/(1+x^2) + v, y = x + w
     # ---
     model3 = FilterModel(NormalDistribution(10, 1), NoiseDistribution(0.2), NoiseDistribution(0.2), lambda x: 10/(1+x*x), lambda x: -20*x/(x*x+1)**2, lambda x: x, lambda _: 1)
-    # simulate(n, model, 100, T)
+    # simulate(n, model3, 100, T)
 
     # ---
     # Nonlinear model, x := x/(1+x^2) + v, y = x + w
     # ---
     # Noise generation
     model4 = FilterModel(NormalDistribution(10, 1), NoiseDistribution(0.5), NoiseDistribution(0.5), lambda x: x/(1+x*x), lambda x: (1-x*x)/(x*x+1)**2, lambda x: x, lambda _: 1)
-    simulate(n, model4, 100, T)
+    # simulate(n, model4, 100, T)

@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 x0 = 0.1     # initial actual state
 Q = 1       # 过程噪声的协方差，且其均值为0（由于是一维的，这里就是指方差）
 R = 1       # 测量噪声的协方差，且其均值为0
-T = 75      # 仿真步数
-N = 10     # 粒子滤波中粒子数，越大效果越好，计算量也越大
+T = 70      # 仿真步数
+N = 100     # 粒子滤波中粒子数，越大效果越好，计算量也越大
 
 # 生成高斯分布初始粒子
 v = 2   # 初始分布方差
@@ -43,6 +43,7 @@ for t in range(1, T):
         # 由于上面已经计算出第i个粒子，带入观测方程后的预测值，现在与真实的测量值y进行比较，越接近则权重越大，或者说差值越小权重越大
         # 这里的权重计算是关于p(y/x)的分布，即观测方程的分布，假设观测噪声满足高斯分布，那么particle_w=p(y/x)
         particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))
+ x
     particle_w[0] = [2.21646841e-76]
     particle_w = np.divide(particle_w, np.sum(particle_w))   # 归一化
 

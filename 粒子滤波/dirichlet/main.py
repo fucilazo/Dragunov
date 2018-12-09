@@ -13,7 +13,9 @@ if __name__ == '__main__':
 
     # import observation file and IPR file as numpy array
     observations = np.loadtxt("obs.csv", delimiter=',')
+    print(observations)
     confidence = np.loadtxt("confidence.csv", delimiter=',')
+    print(confidence)
 
     # compare data length and dimension
     dimension = observations.shape[1]
