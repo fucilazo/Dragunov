@@ -43,7 +43,7 @@ class StdNonLin(nlg.NonlinearGaussianInitialGaussian):
                 8 * math.cos(1.2 * t))
 
 
-T = 40
+T = 100
 P0 = 5.0 * numpy.eye(1)
 Q = 1.0 * numpy.eye(1)
 R = 0.1 * numpy.eye(1)
@@ -69,15 +69,12 @@ est_smooth = sim.get_smoothed_estimates()
 mean_smooth = sim.get_smoothed_mean()
 
 plt.plot(range(T + 1), x, 'r-', linewidth=2.0, label='True')
-plt.plot((0,) * N, est_filt[0, :, 0].ravel(), 'k.',
-        markersize=0.5, label='Particles')
-for t in range(1, T + 1):
-    plt.plot((t,) * N, est_filt[t, :, 0].ravel(),
-             'k.', markersize=0.5)
-plt.plot(range(T + 1), mean_filt[:, 0], 'g--',
-         linewidth=2.0, label='Filter mean')
-plt.plot(range(T + 1), mean_smooth[:, 0], 'b--',
-         linewidth=2.0, label='Smoother mean')
+# plt.plot((0,) * N, est_filt[0, :, 0].ravel(), 'k.', markersize=0.5, label='Particles')
+# for t in range(1, T + 1):
+#     plt.plot((t,) * N, est_filt[t, :, 0].ravel(), 'k.', markersize=0.5)
+plt.plot(range(T + 1), mean_filt[:, 0], 'g--', linewidth=2.0, label='Filter mean')
+plt.plot(range(T + 1), mean_smooth[:, 0], 'b--', linewidth=2.0, label='Smoother mean')
+plt.legend()
 plt.xlabel('t')
 plt.ylabel('x')
 plt.show()

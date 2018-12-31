@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 x0 = 0.1     # initial actual state
 Q = 1       # 过程噪声的协方差，且其均值为0（由于是一维的，这里就是指方差）
 R = 1       # 测量噪声的协方差，且其均值为0
-T = 75      # 仿真步数
+T = 75     # 仿真步数
 N = 10     # 粒子滤波中粒子数，越大效果越好，计算量也越大
 
-# 生成高斯分布初始粒子
+# 初始化高斯分布初始粒子
 v = 2   # 初始分布方差
 next_particle = np.zeros(shape=(N, 1))
 z_update = np.zeros(shape=(N, 1))
@@ -74,8 +74,9 @@ print(rmse)     # root mean squared error between the estimated and actual posit
 error = [abs(x_out[i] - x_est_out[i]) for i in range(len(x_out))]
 
 x1 = np.arange(0, T)
+plt.plot(x1, x_out, label="True")
 plt.plot(x1, x_est_out, label="Est")   # plotting out the tracking
-plt.plot(x1, x_out, '--', label="True")
+
 # plt.plot(x1, z_out, label='True')
 
 # plt.ylim(-100,100)
