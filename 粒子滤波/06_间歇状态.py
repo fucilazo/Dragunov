@@ -3,7 +3,7 @@ import math
 import matplotlib.pyplot as plt
 
 x0 = 0      # 初始值
-T = 500     # 仿真步数
+T = 750     # 仿真步数
 N = 80      # 粒子滤波中粒子数，越大效果越好，计算量也越大
 R = 1       # 测量噪声的协方差，且其均值为0
 
@@ -25,14 +25,46 @@ x_s = [0]    # 用以存储方差
 
 for t in range(1, T):
     # 从状态方程当中获取下一时刻的状态值（称为预测）
-    x = np.random.randn() * 0.5
-    # 在当前状态下，通过观测方程获取的观测量的值
-    z = x**2/2 + np.random.randn()*0.5
-
-    for i in range(1, N):
-        next_particle[i] = np.random.randn()*0.5
-        z_update[i] = next_particle[i]**2/2 + np.random.randn()*0.5
-        particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))    # 高斯函数
+    if t < T/3:
+        x = np.random.randn() * 0.5
+        # 在当前状态下，通过观测方程获取的观测量的值
+        z = x ** 2 / 2 + np.random.randn() * 0.5
+        for i in range(1, N):
+            next_particle[i] = np.random.randn() * 0.5
+            z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
+            particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
+    elif T/3 <= t < T/3 + 20:
+        x = np.random.randn() * 0.5 + (t+1-T/3)*0.25
+        # 在当前状态下，通过观测方程获取的观测量的值
+        z = x ** 2 / 2 + np.random.randn() * 0.5
+        for i in range(1, N):
+            next_particle[i] = np.random.randn() * 0.5
+            z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
+            particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
+    elif T/3+20 <= t < 2*T/3:
+        x = np.random.randn() * 0.5 + 5
+        # 在当前状态下，通过观测方程获取的观测量的值
+        z = x**2/2 + np.random.randn()*0.5
+        for i in range(1, N):
+            next_particle[i] = np.random.randn()*0.5 + 5
+            z_update[i] = next_particle[i]**2/2 + np.random.randn()*0.5
+            particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))    # 高斯函数
+    elif T/3 <= t < 2*T/3 + 20:
+        x = np.random.randn() * 0.5 + 5 - (t+1-2*T/3)*0.25
+        # 在当前状态下，通过观测方程获取的观测量的值
+        z = x ** 2 / 2 + np.random.randn() * 0.5
+        for i in range(1, N):
+            next_particle[i] = np.random.randn() * 0.5
+            z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
+            particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
+    else:
+        x = np.random.randn() * 0.5
+        # 在当前状态下，通过观测方程获取的观测量的值
+        z = x ** 2 / 2 + np.random.randn() * 0.5
+        for i in range(1, N):
+            next_particle[i] = np.random.randn() * 0.5
+            z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
+            particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
     particle_w[0] = [2.21646841e-76]
     particle_w = np.divide(particle_w, np.sum(particle_w))  # 归一化
 

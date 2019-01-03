@@ -24,15 +24,25 @@ x_est_out = [x_est]     # 用于记录粒子滤波每一步估计的粒子均值
 x_s = [0]    # 用以存储方差
 
 for t in range(1, T):
-    # 从状态方程当中获取下一时刻的状态值（称为预测）
-    x = np.random.randn() * 0.5
-    # 在当前状态下，通过观测方程获取的观测量的值
-    z = x**2/2 + np.random.randn()*0.5
-
-    for i in range(1, N):
-        next_particle[i] = np.random.randn()*0.5
-        z_update[i] = next_particle[i]**2/2 + np.random.randn()*0.5
-        particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))    # 高斯函数
+    if t < T/2:
+        # 从状态方程当中获取下一时刻的状态值（称为预测）
+        x = np.random.randn() * 0.5
+        # 在当前状态下，通过观测方程获取的观测量的值
+        z = x**2/2 + np.random.randn()*0.5
+        for i in range(1, N):
+            next_particle[i] = np.random.randn()*0.5
+            z_update[i] = next_particle[i]**2/2 + np.random.randn()*0.5
+            particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))    # 高斯函数
+    else:
+        # 从状态方程当中获取下一时刻的状态值（称为预测）
+        # x = np.random.randn() * 0.5 + 5 * np.random.rand()
+        x = np.random.randn() * 0.5 + 5 * np.random.rand() * np.random.randn()
+        # 在当前状态下，通过观测方程获取的观测量的值
+        z = x ** 2 / 2 + np.random.randn() * 0.5
+        for i in range(1, N):
+            next_particle[i] = np.random.randn() * 0.5
+            z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
+            particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
     particle_w[0] = [2.21646841e-76]
     particle_w = np.divide(particle_w, np.sum(particle_w))  # 归一化
 
