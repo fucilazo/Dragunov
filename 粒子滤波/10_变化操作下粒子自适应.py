@@ -6,13 +6,16 @@ x0 = 0      # 初始值
 T = 750     # 仿真步数
 N = 80      # 粒子滤波中粒子数，越大效果越好，计算量也越大
 R = 1       # 测量噪声的协方差，且其均值为0
+K = 1       # 自适应比重
+Min = -0.1  # 态势收敛最小值
+Max = 0.1   # 态势收敛最大值
 
 # 初始化高斯分布初始粒子
 # v = 2   # 初始分布方差
-next_particle = np.zeros(shape=(N, 1))
-z_update = np.zeros(shape=(N, 1))
-particle_w = np.zeros(shape=(N, 1))
-current_particle = np.zeros(shape=(N, 1))
+next_particle = np.zeros(shape=(int(N*K), 1))
+z_update = np.zeros(shape=(int(N*K), 1))
+particle_w = np.zeros(shape=(int(N*K), 1))
+current_particle = np.zeros(shape=(int(N*K), 1))
 # 高斯分布产生初始粒子，就是在x状态附近做一个随机样本抽样的过程
 for i in range(N):
     current_particle[i] = np.random.randn()*0.5
@@ -22,6 +25,7 @@ z_out = [x0]    # 用于存储量测方程计算得到的每一步的状态值
 x_est = x0       # time by time output of the particle filters estimate
 x_est_out = [x_est]     # 用于记录粒子滤波每一步估计的粒子均值（该均值即为对对应步状态的估计值）
 x_s = [0]    # 用以存储方差
+kn = [N]         # k*n得出的粒子数
 
 for t in range(1, T):
     # 从状态方程当中获取下一时刻的状态值（称为预测）
@@ -29,7 +33,9 @@ for t in range(1, T):
         x = np.random.randn() * 0.5
         # 在当前状态下，通过观测方程获取的观测量的值
         z = x ** 2 / 2 + np.random.randn() * 0.5
-        for i in range(1, N):
+        print(int(N * K))
+        kn.append(int(N * K))
+        for i in range(1, int(N * K)):
             next_particle[i] = np.random.randn() * 0.5
             z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
             particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
@@ -37,7 +43,9 @@ for t in range(1, T):
         x = np.random.randn() * 0.5 + (t+1-T/3)*0.25
         # 在当前状态下，通过观测方程获取的观测量的值
         z = x ** 2 / 2 + np.random.randn() * 0.5
-        for i in range(1, N):
+        print(int(N * K))
+        kn.append(int(N * K))
+        for i in range(1, int(N * K)):
             next_particle[i] = np.random.randn() * 0.5
             z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
             particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
@@ -45,7 +53,9 @@ for t in range(1, T):
         x = np.random.randn() * 0.5 + 5
         # 在当前状态下，通过观测方程获取的观测量的值
         z = x**2/2 + np.random.randn()*0.5
-        for i in range(1, N):
+        print(int(N * K))
+        kn.append(int(N * K))
+        for i in range(1, int(N * K)):
             next_particle[i] = np.random.randn()*0.5 + 5
             z_update[i] = next_particle[i]**2/2 + np.random.randn()*0.5
             particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))    # 高斯函数
@@ -53,7 +63,9 @@ for t in range(1, T):
         x = np.random.randn() * 0.5 + 5 - (t+1-2*T/3)*0.25
         # 在当前状态下，通过观测方程获取的观测量的值
         z = x ** 2 / 2 + np.random.randn() * 0.5
-        for i in range(1, N):
+        print(int(N * K))
+        kn.append(int(N * K))
+        for i in range(1, int(N * K)):
             next_particle[i] = np.random.randn() * 0.5
             z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
             particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
@@ -61,7 +73,9 @@ for t in range(1, T):
         x = np.random.randn() * 0.5
         # 在当前状态下，通过观测方程获取的观测量的值
         z = x ** 2 / 2 + np.random.randn() * 0.5
-        for i in range(1, N):
+        print(int(N * K))
+        kn.append(int(N * K))
+        for i in range(1, int(N * K)):
             next_particle[i] = np.random.randn() * 0.5
             z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
             # %对每个粒子计算其权重，这里假设量测噪声是高斯分布。所以 w = p(y|x)对应下面的计算公式
@@ -71,7 +85,7 @@ for t in range(1, T):
 
     mar = np.zeros(shape=(1, 10))
     # 重采样
-    for i in range(1, N):
+    for i in range(1, int(N * K)):
         # 用rand函数来产生在0到1之间服从均匀分布的随机数，用于找出归一化后权值较大的粒子
         # 在这里归一化后的权值太小了，很难单个粒子的权值会大于u=rand产生的随机数，这里用累加的方式来获得具有较大权值的粒子
         mar = ((np.random.rand() <= np.cumsum(particle_w)))

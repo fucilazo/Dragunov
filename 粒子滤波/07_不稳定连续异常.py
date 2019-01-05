@@ -42,17 +42,18 @@ for t in range(1, T):
         for i in range(1, N):
             next_particle[i] = np.random.randn() * 0.5
             z_update[i] = next_particle[i] ** 2 / 2 + np.random.randn() * 0.5
+            # %对每个粒子计算其权重，这里假设量测噪声是高斯分布。所以 w = p(y|x)对应下面的计算公式
             particle_w[i] = (1 / np.sqrt(2 * np.pi * R)) * np.exp(-(z - z_update[i]) ** 2 / (2 * R))  # 高斯函数
     particle_w[0] = [2.21646841e-76]
     particle_w = np.divide(particle_w, np.sum(particle_w))  # 归一化
 
-    mar = np.zeros(shape=(1, 10))
+    mar = np.zeros(shape=(1, N))
     # 重采样
     for i in range(1, N):
         # 用rand函数来产生在0到1之间服从均匀分布的随机数，用于找出归一化后权值较大的粒子
         # 在这里归一化后的权值太小了，很难单个粒子的权值会大于u=rand产生的随机数，这里用累加的方式来获得具有较大权值的粒子
         mar = ((np.random.rand() <= np.cumsum(particle_w)))
-        for io in range(1, 10):
+        for io in range(1, N):
             # 如果大于等于，则将该权值的粒子保留下来
             if mar[io] == True:
                 current_particle[i] = next_particle[io]
