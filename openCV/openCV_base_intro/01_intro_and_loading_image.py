@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import cv2
 #                               0
-img = cv2.imread('mid.jpg', cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('test.jpg', cv2.IMREAD_GRAYSCALE)
 # IMREAD_COLOR = 1
 # IMREAD_UNCHANGED = -1
 cv2.imshow('image', img)
