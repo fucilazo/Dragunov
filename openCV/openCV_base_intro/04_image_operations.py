@@ -11,7 +11,7 @@ print(roi)
 img[100:250, 100:250] = [255, 255, 255]
 
 pieces = img[37:111, 107:194]
-img[0:74, 0:87] = pieces
+img[0:74, 0:87] = pieces    # 高、宽
 
 cv2.imshow('image', img)
 cv2.waitKey(0)
